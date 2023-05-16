@@ -1,0 +1,3 @@
+file(GLOB_RECURSE SRC_FILES "*.cpp")
+
+add_library(omni_serializer STATIC ${SRC_FILES})

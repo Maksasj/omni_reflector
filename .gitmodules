@@ -1,0 +1,6 @@
+[submodule "3dparty/hana"]
+	path = 3dparty/hana
+	url = https://github.com/boostorg/hana.git
+[submodule "3dparty/json"]
+	path = 3dparty/json
+	url = https://github.com/nlohmann/json.git
