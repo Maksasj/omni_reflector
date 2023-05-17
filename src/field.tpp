@@ -29,7 +29,6 @@ namespace omni::reflector {
                 lambda(fieldEntry._name, obj.*(memberPtr));
             }
 
-
             for_each_field<I + 1>(obj, tup, lambda);
         }
     }

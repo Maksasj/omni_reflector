@@ -8,32 +8,6 @@
 
 using namespace omni::reflector;
 
-struct Adress : public Reflected<Adress> {
-	std::string region;
-	std::string street;
-	int house;
-	int stage;
-
-	const constexpr static auto meta = std::make_tuple(
-		field(region),
-		field(street),
-		field(house),
-		field(stage)
-	);
-};
-
-struct Student : public Reflected<Student> {
-	int age;
-	int mark;
-	Adress adress;
-
-	const constexpr static auto meta = std::make_tuple(
-		field(age),
-		field(mark),
-		field(adress)
-	);
-};
-
 template<class Type> 
 nlohmann::json serialize(const Type& data) {
 	using json = nlohmann::json;
@@ -52,17 +26,61 @@ nlohmann::json serialize(const Type& data) {
 	return object;
 }
 
+struct House : public Reflected<House> {
+	float width;
+	float height;
+	int neighboursCount;
+	int stage;
+
+	const constexpr static auto meta = std::make_tuple(
+		field(width),
+		field(height),
+		field(neighboursCount),
+		field(stage)
+	);
+};
+
+struct Adress : public Reflected<Adress> {
+	std::string region;
+	std::string street;
+	House house;
+
+	const constexpr static auto meta = std::make_tuple(
+		field(region),
+		field(street),
+		field(house)
+	);
+};
+
+struct Student : public Reflected<Student> {
+	int age;
+	int mark;
+	Adress adress;
+	
+	const constexpr static auto meta = std::make_tuple(
+		field(age),
+		field(mark),
+		field(adress)
+	);
+};
+
 int main() {
 	using json = nlohmann::json;
 
-	Student student;
-
-	student.age = 21;
-	student.mark = 8;
-	student.adress.region = "Fabijoniskai";
-	student.adress.street = "Kryzioku";
-	student.adress.house = 179;
-	student.adress.stage = 5;
+	Student student = (Student) {
+		.age = 21,
+		.mark = 8,
+		.adress = (Adress) {
+			.region = "Fabijoniskai",
+			.street = "Kryzioku", 
+			.house = (House) {
+				.width = 1.0f,
+				.height = 1.0f,
+				.neighboursCount = 2,
+				.stage = 5
+			}
+		}
+	};
 
 	json data = serialize(student);
 
