@@ -14,11 +14,11 @@ nlohmann::json serialize(const Type& data) {
 
 	json object = json({});
 
-	for_each_field(data, data.meta, [&](const char* fieldName, auto& field) {
+	for_each_field<predicate::is_not_reflectable>(data, [&](const char* fieldName, auto& field) {
 		object[fieldName] = field;
 	});
 
-	for_each_reflectable_field(data, data.meta, [&](const char* fieldName, auto& field) {
+	for_each_field<predicate::is_reflectable>(data, [&](const char* fieldName, auto& field) {
 		json inner = serialize(field);
 		object[fieldName] = inner;
 	});
@@ -67,20 +67,16 @@ struct Student : public Reflected<Student> {
 int main() {
 	using json = nlohmann::json;
 
-	Student student = (Student) {
-		.age = 21,
-		.mark = 8,
-		.adress = (Adress) {
-			.region = "Fabijoniskai",
-			.street = "Kryzioku", 
-			.house = (House) {
-				.width = 1.0f,
-				.height = 1.0f,
-				.neighboursCount = 2,
-				.stage = 5
-			}
-		}
-	};
+	Student student;
+
+	student.age = 21;
+	student.mark = 8;
+	student.adress.region = "Fabijoniskai";
+	student.adress.street = "Kryzioku";
+	student.adress.house.width = 1.0f;
+	student.adress.house.height = 1.0f;
+	student.adress.house.neighboursCount = 2;
+	student.adress.house.stage = 5;
 
 	json data = serialize(student);
 

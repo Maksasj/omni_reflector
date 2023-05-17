@@ -5,4 +5,6 @@
 #include "property.tpp"
 #include "field.tpp"
 
+#include "predicates.h"
+
 #endif
