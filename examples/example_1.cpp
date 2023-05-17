@@ -6,6 +6,8 @@
 
 #include "omni_reflector.h"
 
+#include <type_traits>
+
 using namespace omni::reflector;
 
 template<class Type> 
@@ -40,6 +42,16 @@ struct House : public Reflected<House> {
 	);
 };
 
+struct Subject : public Reflected<Subject> {
+	float depth;
+	float maxMark;
+
+	const constexpr static auto meta = std::make_tuple(
+		field(depth),
+		field(maxMark)
+	);
+};
+
 struct Adress : public Reflected<Adress> {
 	std::string region;
 	std::string street;
@@ -54,12 +66,14 @@ struct Adress : public Reflected<Adress> {
 
 struct Student : public Reflected<Student> {
 	int age;
-	int mark;
+	//std::vector<int> marks;
+	//std::unordered_map<std::string, Subject> debts;
 	Adress adress;
 	
 	const constexpr static auto meta = std::make_tuple(
 		field(age),
-		field(mark),
+		//field(marks),
+		//field(debts),
 		field(adress)
 	);
 };
@@ -70,7 +84,13 @@ int main() {
 	Student student;
 
 	student.age = 21;
-	student.mark = 8;
+	// student.marks = { 8, 9, 1 };
+	// 
+	// student.debts["Math"].depth = 1.0f;
+	// student.debts["Math"].maxMark = 10.0f;
+	// student.debts["OOP"].depth = 2.0f;
+	// student.debts["OOP"].maxMark = 9.0f;
+
 	student.adress.region = "Fabijoniskai";
 	student.adress.street = "Kryzioku";
 	student.adress.house.width = 1.0f;
@@ -81,7 +101,7 @@ int main() {
 	json data = serialize(student);
 
 	const auto representation = data.dump(4);
-	std::cout << representation;
-
+	std::cout << representation << "\n";
+	
 	return 0;
 }

@@ -10,7 +10,7 @@
 
 namespace omni::reflector {
     template<typename Class, typename T>
-    constexpr auto field_registration(T Class::*member, const char* name) {
+    constexpr auto field_registration(T Class::*member, const char* name) noexcept {
         return PropertyImpl<Class, T>{member, name};
     }
 
