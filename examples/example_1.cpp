@@ -16,13 +16,45 @@ nlohmann::json serialize(const Type& data) {
 
 	json object = json({});
 
-	for_each_field<predicate::is_not_reflectable>(data, [&](const char* fieldName, auto& field) {
-		object[fieldName] = field;
-	});
+	for_each_field<predicate::is_any>(data, [&](const char* fieldName, auto& field) {
+		using fieldType = typename std::remove_const_t<std::remove_reference_t<decltype(field)>>;
+		
+		if constexpr (predicate::is_assignable<json, fieldType>::value) {
+			object[fieldName] = field;
+			return;
+		}
+		
+		if constexpr (predicate::is_reflectable<fieldType>::value) {
+			json inner = serialize(field);
+			object[fieldName] = inner;
+			return;
+		}
 
-	for_each_field<predicate::is_reflectable>(data, [&](const char* fieldName, auto& field) {
-		json inner = serialize(field);
-		object[fieldName] = inner;
+		if constexpr (predicate::has_any_begin<fieldType>::value && predicate::has_any_end<fieldType>::value && predicate::is_not_assignable<json, fieldType>::value) {
+			auto iterBegin = field.begin();
+			auto iterEnd = field.end();
+
+			json inner;
+
+			for (;iterBegin != iterEnd; ++iterBegin) {
+				auto& instance = *iterBegin;
+				using instanceType = decltype(instance);
+
+				if constexpr (predicate::has_meta<instanceType>::value)
+					inner.push_back(serialize(instance));
+				else {
+					using firstType = typename std::remove_const_t<decltype(instance.first)>;
+
+					static_assert(std::is_same<firstType, std::string>::value, "Expected key to be a string");
+
+					inner[instance.first] = serialize(instance.second);
+				}
+			}
+
+			object[fieldName] = inner;
+
+			return;
+		}
 	});
 
 	return object;
@@ -39,6 +71,18 @@ struct House : public Reflected<House> {
 		field(height),
 		field(neighboursCount),
 		field(stage)
+	);
+};
+
+struct Mark : public Reflected<Mark> {
+	std::string remark;
+	float markValue;
+	
+	Mark(const std::string& _remark, const float& _markValue) : remark(_remark), markValue(_markValue) {}
+
+	const constexpr static auto meta = std::make_tuple(
+		field(remark),
+		field(markValue)
 	);
 };
 
@@ -66,14 +110,14 @@ struct Adress : public Reflected<Adress> {
 
 struct Student : public Reflected<Student> {
 	int age;
-	//std::vector<int> marks;
-	//std::unordered_map<std::string, Subject> debts;
+	std::vector<Mark> marks;
+	std::unordered_map<std::string, Subject> debts;
 	Adress adress;
 	
 	const constexpr static auto meta = std::make_tuple(
 		field(age),
-		//field(marks),
-		//field(debts),
+		field(marks),
+		field(debts),
 		field(adress)
 	);
 };
@@ -84,12 +128,14 @@ int main() {
 	Student student;
 
 	student.age = 21;
-	// student.marks = { 8, 9, 1 };
-	// 
-	// student.debts["Math"].depth = 1.0f;
-	// student.debts["Math"].maxMark = 10.0f;
-	// student.debts["OOP"].depth = 2.0f;
-	// student.debts["OOP"].maxMark = 9.0f;
+	student.marks.push_back(Mark("bad english", 6.0f));
+	student.marks.push_back(Mark("bad math", 4.0f));
+	student.marks.push_back(Mark("good pe", 9.0f));
+
+	student.debts["Math"].depth = 1.0f;
+	student.debts["Math"].maxMark = 10.0f;
+	student.debts["OOP"].depth = 2.0f;
+	student.debts["OOP"].maxMark = 9.0f;
 
 	student.adress.region = "Fabijoniskai";
 	student.adress.street = "Kryzioku";
@@ -102,6 +148,6 @@ int main() {
 
 	const auto representation = data.dump(4);
 	std::cout << representation << "\n";
-	
+
 	return 0;
 }
