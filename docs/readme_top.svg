@@ -4,7 +4,7 @@
 			<style>
 			</style>
 			<div class="main">
-				<img align="left" src="omni_reflector_logo_big.gif" width="288px" />
+				<img align="left" src="https://github.com/Maksasj/omni_reflector/blob/master/docs/omni_reflector_logo_big.gif" width="288px" />
 				
 			 	<h1>Omni reflector</h1>
 				<p>Omni reflector - C++ reflection/serialization library, that uses c++ metaprogramming to manage fields of class and structs at compile time. Depends only on c++ standard library, not event boost funsion or hana required.</p>
