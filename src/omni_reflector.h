@@ -2,7 +2,7 @@
 #define _OMNI_REFLECTOR_H_
 
 #include "reflected.h"
-#include "property.tpp"
+#include "field_implementation.tpp"
 #include "field.tpp"
 
 #include "predicates.h"

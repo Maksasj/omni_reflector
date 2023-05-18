@@ -1,17 +1,17 @@
-#ifndef _OMNI_REFLECTOR_FIELD_H_
-#define _OMNI_REFLECTOR_FIELD_H_
+#ifndef _OMNI_REFLECTOR_FIELD_TPP_
+#define _OMNI_REFLECTOR_FIELD_TPP_
 
 #include <iostream>
 #include <functional>
 
 #include <type_traits>
 
-#include "property.tpp"
+#include "field_implementation.tpp"
 
 namespace omni::reflector {
     template<typename Class, typename T>
     constexpr auto field_registration(T Class::*member, const char* name) noexcept {
-        return PropertyImpl<Class, T>{member, name};
+        return FieldImpl<Class, T>{member, name};
     }
 
     #define field(fieldName) field_registration(&Type::fieldName, #fieldName)

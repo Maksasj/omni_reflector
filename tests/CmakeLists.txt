@@ -1,0 +1,10 @@
+project(OmniReflectorTests)
+cmake_minimum_required(VERSION 3.0)
+
+include_directories("../src")
+include_directories("./")
+
+enable_testing()
+
+add_subdirectory(predicate)
+

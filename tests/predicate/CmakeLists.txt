@@ -1,0 +1,14 @@
+add_executable(has_begin_test has_begin_test.cpp)
+target_link_libraries(has_begin_test omni_reflector)
+
+add_executable(has_end_test has_end_test.cpp)
+target_link_libraries(has_end_test omni_reflector)
+
+add_executable(is_reflectable_test is_reflectable_test.cpp)
+target_link_libraries(is_reflectable_test omni_reflector)
+
+enable_testing()
+
+add_test(NAME Predicate_HasBegin COMMAND $<TARGET_FILE:has_begin_test>)
+add_test(NAME Predicate_HasEnd COMMAND $<TARGET_FILE:has_end_test>)
+add_test(NAME Predicate_IsReflectable COMMAND $<TARGET_FILE:is_reflectable_test>)
