@@ -5,5 +5,6 @@
 
 #include "predicate/has_begin.tpp"
 #include "predicate/has_end.tpp"
+#include "predicate/has_size.tpp"
 
 #endif
