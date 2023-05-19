@@ -20,6 +20,9 @@ namespace omni::reflector::predicate {
 
     template <typename T>
     using is_associative = is_any_associative<T>;
+
+    template <typename T>
+    using is_not_associative = std::negation<is_any_associative<T>>;
 }
 
 #endif

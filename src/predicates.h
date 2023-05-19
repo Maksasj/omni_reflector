@@ -13,5 +13,6 @@
 #include "predicate/is_associative.tpp"
 
 #include "predicate/is_assignable.tpp"
+#include "predicate/is_container.tpp"
 
 #endif
