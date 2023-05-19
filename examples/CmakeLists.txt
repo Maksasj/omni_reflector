@@ -5,3 +5,6 @@ include_directories("../src")
 
 add_executable(example_1 example_1.cpp)
 target_link_libraries(example_1 omni_reflector)
+
+add_executable(example_2 example_2.cpp)
+target_link_libraries(example_2 omni_reflector)

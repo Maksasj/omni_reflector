@@ -22,8 +22,7 @@ namespace omni::reflector::serialization {
             }
             
             if constexpr (predicate::is_reflectable<fieldType>::value) {
-                json inner = json_serialize(field);
-                object[fieldName] = inner;
+                object[fieldName] = json_serialize(field);
                 return;
             }
 
@@ -49,6 +48,42 @@ namespace omni::reflector::serialization {
                 }
 
                 object[fieldName] = inner;
+
+                return;
+            }
+        });
+
+        return object;
+    }
+
+    template<class Type> 
+    auto json_deserialize(const nlohmann::json& data) -> Type {
+        using json = nlohmann::json;
+        
+        Type object;
+
+        for_each_field<predicate::is_any>(object, [&](const char* fieldName, auto& field) {
+            using fieldType = typename std::remove_const_t<std::remove_reference_t<decltype(field)>>;
+
+            if constexpr (predicate::is_assignable<json, fieldType>::value) {
+                field = data[fieldName];
+                return;
+            }
+
+            if constexpr (predicate::is_reflectable<fieldType>::value) {
+                field = json_deserialize<fieldType>(data[fieldName]);
+                return;
+            }
+
+            if constexpr (predicate::has_any_begin<fieldType>::value && predicate::has_any_end<fieldType>::value && predicate::is_not_assignable<json, fieldType>::value) {
+                using valueType = typename fieldType::value_type;
+
+                for (auto& sub : data[fieldName].items()) {
+                    if constexpr (predicate::is_associative<fieldType>::value)
+                        field[sub.key()] = json_deserialize<typename fieldType::mapped_type>(sub.value());
+                    else
+                        field.push_back(json_deserialize<valueType>(sub.value()));
+                }
 
                 return;
             }

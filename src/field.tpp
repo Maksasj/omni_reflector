@@ -17,7 +17,7 @@ namespace omni::reflector {
     #define field(fieldName) field_registration(&Type::fieldName, #fieldName)
 
     template<template<typename PredicateMetaType> class Predicate, size_t Index = 0, class MetaObject, class Callable>
-    constexpr void for_each_field(const MetaObject& obj, Callable&& lambda) noexcept {
+    constexpr void for_each_field(MetaObject& obj, Callable&& lambda) noexcept {
         using metaType = decltype(obj.meta);
 
         if constexpr(Index == std::tuple_size<metaType>::value) {
@@ -27,11 +27,9 @@ namespace omni::reflector {
             using FieldType = typename decltype(fieldEntry)::Type;
 
             auto& memberPtr = fieldEntry._member;
-            auto& member = *reinterpret_cast<FieldType*>(&memberPtr);
 
-            if constexpr (Predicate<FieldType>::value) {
+            if constexpr (Predicate<FieldType>::value)
                 lambda(fieldEntry._name, obj.*(memberPtr));
-            }
 
             for_each_field<Predicate, Index + 1>(obj, lambda);
         }
