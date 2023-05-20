@@ -3,8 +3,8 @@
 #include <functional>
 #include <type_traits>
 
+#define OMNI_REFLECTOR_ENABLE_SERIALIZER
 #include "omni_reflector.h"
-#include "omni_serializer.h"
 
 using namespace omni::reflector;
 using namespace omni::reflector::serialization;

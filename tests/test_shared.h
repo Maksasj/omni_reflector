@@ -3,8 +3,8 @@
 
 #include "stl_containers.h"
 
+#define OMNI_REFLECTOR_ENABLE_SERIALIZER
 #include "omni_reflector.h"
-#include "omni_serializer.h"
 
 #define ensure(EXP) if(!(EXP)) return 1;
 #define ensure_const(EXP) if constexpr (!(EXP)) return 1;

@@ -7,4 +7,8 @@
 
 #include "predicates.h"
 
+#ifdef OMNI_REFLECTOR_ENABLE_SERIALIZER
+    #include "omni_serializer.h"
+#endif
+
 #endif
