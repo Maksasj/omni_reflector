@@ -56,7 +56,7 @@ int main() {
 	return 0;
 };
 ```
-After serializing ``someRandomStruct``, eventually we get json structure, that will have following layout *(Note fields fielied with garbage, since I haven't fillied the ``someRandomStruct`` :) )*:
+After serializing ``someRandomStruct``, eventually we get json structure, that will have following layout *(Note fields filled with garbage, since I haven't filled the ``someRandomStruct`` :) )*:
 ```json
 {
     "childStruct": {
