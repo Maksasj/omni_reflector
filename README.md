@@ -47,7 +47,7 @@ struct MyStruct : Reflected<MyStruct> {
 int main() {
 	MyStruct someRandomStruct;
 
-    /* Filling struct with some values*/
+	/* Filling struct with some values*/
 
 	nlohmann::json object = json_serialize(someRandomStruct);
 	const auto representation = object.dump(4);
