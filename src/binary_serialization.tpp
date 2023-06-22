@@ -33,7 +33,7 @@ namespace omni::reflector::serialization {
         }
 
         if constexpr (predicate::is_reflectable<Type>::value) {
-            for_each_field<predicate::is_any>(data, [&](const char* fieldName, auto& field) {
+            FieldFriendlyScope::for_each_field<predicate::is_any>(data, [&](const char* fieldName, auto& field) {
                 binary_serialize(stream, field);
             });
 
@@ -66,7 +66,7 @@ namespace omni::reflector::serialization {
         }
 
         if constexpr (predicate::is_reflectable<Type>::value) {
-            for_each_field<predicate::is_any>(object, [&](const char* fieldName, auto& field) {
+            FieldFriendlyScope::for_each_field<predicate::is_any>(object, [&](const char* fieldName, auto& field) {
                 using fieldType = typename std::remove_const_t<std::remove_reference_t<decltype(field)>>;
 
                 field = binary_deserialize<fieldType>(stream);
