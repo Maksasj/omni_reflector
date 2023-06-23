@@ -8,24 +8,18 @@ using namespace omni::reflector::serialization;
 
 using json = nlohmann::json;
 
-struct MyStruct_1 : public Reflected<MyStruct_1> {
+struct MyStruct_1 {
 	std::vector<int> vectorField;
 
 	MyStruct_1() {}
 	MyStruct_1(const std::vector<int>& intVector) : vectorField(intVector) {}
-
-	const constexpr static auto meta = std::make_tuple(
-		field(vectorField)
-	);
 };
+OMNI_ADAPT_STRUCTURE(MyStruct_1, vectorField);
 
-struct MyStruct_2 : public Reflected<MyStruct_2> {
+struct MyStruct_2 {
 	std::vector<MyStruct_1> vectorField;
-
-	const constexpr static auto meta = std::make_tuple(
-		field(vectorField)
-	);
 };
+OMNI_ADAPT_STRUCTURE(MyStruct_2, vectorField);
 
 int main() {
 

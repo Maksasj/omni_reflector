@@ -9,67 +9,42 @@
 using namespace omni::reflector;
 using namespace omni::reflector::serialization;
 
-struct House : public Reflected<House> {
+struct House {
 	float width;
 	float height;
 	int neighboursCount;
 	int stage;
-
-	const constexpr static auto meta = std::make_tuple(
-		field(width),
-		field(height),
-		field(neighboursCount),
-		field(stage)
-	);
 };
+OMNI_ADAPT_STRUCTURE(House, width, height, neighboursCount, stage);
 
-struct Mark : public Reflected<Mark> {
+struct Mark {
 	std::string remark;
 	float markValue;
 	
 	Mark(const std::string& _remark, const float& _markValue) : remark(_remark), markValue(_markValue) {}
-
-	const constexpr static auto meta = std::make_tuple(
-		field(remark),
-		field(markValue)
-	);
 };
+OMNI_ADAPT_STRUCTURE(Mark, remark, markValue);
 
-struct Subject : public Reflected<Subject> {
+struct Subject {
 	float depth;
 	float maxMark;
-
-	const constexpr static auto meta = std::make_tuple(
-		field(depth),
-		field(maxMark)
-	);
 };
+OMNI_ADAPT_STRUCTURE(Subject, depth, maxMark);
 
-struct Adress : public Reflected<Adress> {
+struct Adress {
 	std::string region;
 	std::string street;
 	House house;
-
-	const constexpr static auto meta = std::make_tuple(
-		field(region),
-		field(street),
-		field(house)
-	);
 };
+OMNI_ADAPT_STRUCTURE(Adress, region, street, house);
 
-struct Student : public Reflected<Student> {
+struct Student {
 	int age;
 	std::vector<Mark> marks;
 	std::unordered_map<std::string, Subject> debts;
 	Adress adress;
-	
-	const constexpr static auto meta = std::make_tuple(
-		field(age),
-		field(marks),
-		field(debts),
-		field(adress)
-	);
 };
+OMNI_ADAPT_STRUCTURE(Student, age, marks, debts, adress);
 
 int main() {
 	using json = nlohmann::json;
