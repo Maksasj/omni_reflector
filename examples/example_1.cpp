@@ -74,5 +74,9 @@ int main() {
 	
 	std::cout << representation << "\n";
 
+	std::cout << Reflection<Student>::clearTypeName << "\n";
+	std::cout << Reflection<Student>::typeInfo.name() << "\n";
+	std::cout << Reflection<Student>::typeInfo.raw_name() << "\n";
+
 	return 0;
 }

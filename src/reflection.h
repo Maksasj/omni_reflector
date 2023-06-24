@@ -11,15 +11,21 @@ namespace omni::reflector {
 
 }
 
+#define OMNI_TYPE_NAME_INFO(_TYPE)                                                          \
+    const constexpr static std::type_info &typeInfo = typeid(_TYPE);                        \
+    const constexpr static auto clearTypeName = #_TYPE;                                     \
+
 #define OMNI_ADAPT_STRUCTURE_0(_TYPE)						                                \
 template<>																	                \
 struct omni::reflector::Reflection<_TYPE> {									                \
+    OMNI_TYPE_NAME_INFO(_TYPE)                                                              \
     const constexpr static auto meta = std::make_tuple();                                   \
 };																			                \
 
 #define OMNI_ADAPT_STRUCTURE_1(_TYPE, _field1)						                        \
 template<>																	                \
 struct omni::reflector::Reflection<_TYPE> {									                \
+    OMNI_TYPE_NAME_INFO(_TYPE)                                                              \
     const constexpr static auto meta = std::make_tuple(						                \
         omni::reflector::FieldFriendlyScope::field_registration(&_TYPE::_field1, #_field1)	\
     );																		                \
@@ -28,6 +34,7 @@ struct omni::reflector::Reflection<_TYPE> {									                \
 #define OMNI_ADAPT_STRUCTURE_2(_TYPE, _field1, _field2)						                \
 template<>																	                \
 struct omni::reflector::Reflection<_TYPE> {									                \
+    OMNI_TYPE_NAME_INFO(_TYPE)                                                              \
     const constexpr static auto meta = std::make_tuple(						                \
         omni::reflector::FieldFriendlyScope::field_registration(&_TYPE::_field1, #_field1),	\
         omni::reflector::FieldFriendlyScope::field_registration(&_TYPE::_field2, #_field2)	\
@@ -37,6 +44,7 @@ struct omni::reflector::Reflection<_TYPE> {									                \
 #define OMNI_ADAPT_STRUCTURE_3(_TYPE, _field1, _field2, _field3)						    \
 template<>																	                \
 struct omni::reflector::Reflection<_TYPE> {									                \
+    OMNI_TYPE_NAME_INFO(_TYPE)                                                              \
     const constexpr static auto meta = std::make_tuple(						                \
         omni::reflector::FieldFriendlyScope::field_registration(&_TYPE::_field1, #_field1),	\
         omni::reflector::FieldFriendlyScope::field_registration(&_TYPE::_field2, #_field2),	\
@@ -47,6 +55,7 @@ struct omni::reflector::Reflection<_TYPE> {									                \
 #define OMNI_ADAPT_STRUCTURE_4(_TYPE, _field1, _field2, _field3, _field4)					\
 template<>																	                \
 struct omni::reflector::Reflection<_TYPE> {									                \
+    OMNI_TYPE_NAME_INFO(_TYPE)                                                              \
     const constexpr static auto meta = std::make_tuple(						                \
         omni::reflector::FieldFriendlyScope::field_registration(&_TYPE::_field1, #_field1),	\
         omni::reflector::FieldFriendlyScope::field_registration(&_TYPE::_field2, #_field2),	\
@@ -58,6 +67,7 @@ struct omni::reflector::Reflection<_TYPE> {									                \
 #define OMNI_ADAPT_STRUCTURE_5(_TYPE, _field1, _field2, _field3, _field4, _field5)			\
 template<>																	                \
 struct omni::reflector::Reflection<_TYPE> {									                \
+    OMNI_TYPE_NAME_INFO(_TYPE)                                                              \
     const constexpr static auto meta = std::make_tuple(						                \
         omni::reflector::FieldFriendlyScope::field_registration(&_TYPE::_field1, #_field1),	\
         omni::reflector::FieldFriendlyScope::field_registration(&_TYPE::_field2, #_field2),	\
