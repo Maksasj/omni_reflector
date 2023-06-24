@@ -1,12 +1,12 @@
 #include "test_shared.h"
 
+struct MyStruct {};
+struct MyStructButReflectable {};
+OMNI_ADAPT_STRUCTURE(MyStructButReflectable);
 
 int main() {
     using namespace std;
 	using namespace omni::reflector;
-
-    struct MyStruct {};
-    struct MyStructButReflectable : Reflected<MyStructButReflectable> {};
 
     TEST_CASE {
         ensure_const(predicate::is_reflectable<MyStructButReflectable>::value);

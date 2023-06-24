@@ -8,24 +8,18 @@ using namespace omni::reflector::serialization;
 
 using json = nlohmann::json;
 
-struct MyStruct_1 : public Reflected<MyStruct_1> {
+struct MyStruct_1 {
 	std::unordered_map<std::string, int> mapField;
 
 	MyStruct_1() {}
 	MyStruct_1(const std::unordered_map<std::string, int>& intMap) : mapField(intMap) {}
-
-	const constexpr static auto meta = std::make_tuple(
-		field(mapField)
-	);
 };
+OMNI_ADAPT_STRUCTURE(MyStruct_1, mapField);
 
-struct MyStruct_2 : public Reflected<MyStruct_2> {
+struct MyStruct_2 {
 	std::unordered_map<std::string, MyStruct_1> mapField;
-
-	const constexpr static auto meta = std::make_tuple(
-		field(mapField)
-	);
 };
+OMNI_ADAPT_STRUCTURE(MyStruct_2, mapField);
 
 int main() {
 

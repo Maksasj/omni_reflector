@@ -8,35 +8,23 @@ using namespace omni::reflector::serialization;
 
 using json = nlohmann::json;
 
-struct MyStruct_0 : public Reflected<MyStruct_0> {
-	const constexpr static auto meta = std::make_tuple();
-};
+struct MyStruct_0 {};
+OMNI_ADAPT_STRUCTURE(MyStruct_0);
 
-struct MyStruct_1 : public Reflected<MyStruct_1> {
+struct MyStruct_1 {
 	float floatField;
 	double doubleField;
 	int intField;
-
-	const constexpr static auto meta = std::make_tuple(
-		field(floatField),
-		field(doubleField),
-		field(intField)
-	);
 };
+OMNI_ADAPT_STRUCTURE(MyStruct_1, floatField, doubleField, intField);
 
-struct MyStruct_2 : public Reflected<MyStruct_2> {
+struct MyStruct_2 {
 	float floatField;
 	double doubleField;
 	int intField;
 	char charField;
-
-	const constexpr static auto meta = std::make_tuple(
-		field(floatField),
-		field(doubleField),
-		field(intField),
-		field(charField)
-	);
 };
+OMNI_ADAPT_STRUCTURE(MyStruct_2, floatField, doubleField, intField, charField);
 
 int main() {
 

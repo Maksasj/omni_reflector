@@ -8,61 +8,41 @@ using namespace omni::reflector::serialization;
 
 using json = nlohmann::json;
 
-struct MyStruct_0 : public Reflected<MyStruct_0> {
-	const constexpr static auto meta = std::make_tuple();
+struct MyStruct_0 {
+	
 };
+OMNI_ADAPT_STRUCTURE(MyStruct_0);
 
-struct MyStruct_0_0 : public Reflected<MyStruct_0_0> {
+struct MyStruct_0_0 {
 	MyStruct_0 emptyStruct;
-
-	const constexpr static auto meta = std::make_tuple(
-		field(emptyStruct)
-	);
 };
+OMNI_ADAPT_STRUCTURE(MyStruct_0_0, emptyStruct);
 
-struct MyStruct_1 : public Reflected<MyStruct_1> {
+struct MyStruct_1 {
 	float floatField;
 	double doubleField;
 	MyStruct_0 emptyStruct;
-
-	const constexpr static auto meta = std::make_tuple(
-		field(floatField),
-		field(doubleField),
-		field(emptyStruct)
-	);
 };
+OMNI_ADAPT_STRUCTURE(MyStruct_1, floatField, doubleField, emptyStruct);
 
-struct MyStruct_1_1 : public Reflected<MyStruct_1_1> {
+struct MyStruct_1_1 {
 	float floatField;
-
-	const constexpr static auto meta = std::make_tuple(
-		field(floatField)
-	);
 };
+OMNI_ADAPT_STRUCTURE(MyStruct_1_1, floatField);
 
-struct MyStruct_2 : public Reflected<MyStruct_2> {
+struct MyStruct_2 {
 	MyStruct_1_1 firstStructField;
 	MyStruct_1_1 secondStructField;
 	int intField;
-
-	const constexpr static auto meta = std::make_tuple(
-		field(firstStructField),
-		field(secondStructField),
-		field(intField)
-	);
 };
+OMNI_ADAPT_STRUCTURE(MyStruct_2, firstStructField, secondStructField, intField);
 
-struct MyStruct_3 : public Reflected<MyStruct_3> {
+struct MyStruct_3 {
 	MyStruct_2 firstStructField;
 	MyStruct_1_1 secondStructField;
 	MyStruct_0_0 thirdStructField;
-
-	const constexpr static auto meta = std::make_tuple(
-		field(firstStructField),
-		field(secondStructField),
-		field(thirdStructField)
-	);
 };
+OMNI_ADAPT_STRUCTURE(MyStruct_3, firstStructField, secondStructField, thirdStructField);
 
 int main() {
 

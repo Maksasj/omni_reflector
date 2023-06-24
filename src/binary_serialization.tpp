@@ -5,7 +5,7 @@
 #include <ostream>
 
 #include "predicates.h"
-#include "reflected.h"
+#include "reflection.h"
 
 namespace omni::reflector::serialization {
     template<class Type> 

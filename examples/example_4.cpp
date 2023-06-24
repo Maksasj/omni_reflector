@@ -9,25 +9,17 @@
 using namespace omni::reflector;
 using namespace omni::reflector::serialization;
 
-struct MyChildStruct : Reflected<MyChildStruct> {
+struct MyChildStruct {
 	float someRandomFloatField;
-
-	const constexpr static auto meta = std::make_tuple(
-		field(someRandomFloatField)
-	);
 };
+OMNI_ADAPT_STRUCTURE(MyChildStruct, someRandomFloatField);
 
-struct MyStruct : Reflected<MyStruct> {
+struct MyStruct {
 	std::string stringField;
 	int poggers;
 	MyChildStruct childStruct;
-
-	const constexpr static auto meta = std::make_tuple(
-		field(stringField),
-		field(poggers),
-		field(childStruct)
-	);
 };
+OMNI_ADAPT_STRUCTURE(MyStruct, stringField, poggers, childStruct);
 
 int main() {
 	MyStruct someRandomStruct;
