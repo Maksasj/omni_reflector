@@ -65,7 +65,7 @@ int main() {
 	testStruct.adress.house.neighboursCount = 2;
 	testStruct.adress.house.stage = 5;
 
-	auto data = json_serialize(testStruct);
+	auto data = JsonSerializer::json_serialize(testStruct);
 
 	TEST_CASE {
 		ensure(data.size() == 4);

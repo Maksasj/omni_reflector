@@ -69,12 +69,12 @@ int main() {
 	student.adress.house.neighboursCount = 2;
 	student.adress.house.stage = 5;
 
-	json data = json_serialize(student);
+	json data = JsonSerializer::json_serialize(student);
 	const auto representation = data.dump(4);
 	std::cout << representation << "\n";
 
-	Student newStudent = json_deserialize<Student>(data);
-	json newData = json_serialize(newStudent);
+	Student newStudent = JsonSerializer::json_deserialize<Student>(data);
+	json newData = JsonSerializer::json_serialize(newStudent);
 	const auto newRepresentation = newData.dump(4);
 	std::cout << newRepresentation << "\n";
 

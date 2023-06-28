@@ -49,7 +49,7 @@ int main() {
 
 	/* Filling struct with some values*/
 
-	nlohmann::json object = json_serialize(someRandomStruct);
+	nlohmann::json object = JsonSerializer::json_serialize(someRandomStruct);
 	const auto representation = object.dump(4);
 	std::cout << representation << "\n";
 

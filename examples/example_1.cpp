@@ -68,7 +68,7 @@ int main() {
 	student.adress.house.neighboursCount = 2;
 	student.adress.house.stage = 5;
 
-	json data = json_serialize(student);
+	json data = JsonSerializer::json_serialize(student);
 
 	const auto representation = data.dump(4);
 	

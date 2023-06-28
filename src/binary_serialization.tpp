@@ -8,73 +8,75 @@
 #include "reflection.h"
 
 namespace omni::reflector::serialization {
-    template<class Type> 
-    void binary_serialize(std::ostream& stream, const Type& data) {
-        if constexpr (predicate::is_not_container<Type>::value && predicate::is_not_reflectable<Type>::value) {
-            char* ptr = (char*) (void*) &data;
-            stream.write(ptr, sizeof(Type));
+    struct BinarySerializer {
+        template<class Type> 
+        static void binary_serialize(std::ostream& stream, const Type& data) {
+            if constexpr (predicate::is_not_container<Type>::value && predicate::is_not_reflectable<Type>::value) {
+                char* ptr = (char*) (void*) &data;
+                stream.write(ptr, sizeof(Type));
 
-            return;
-        }
-
-        if constexpr (predicate::is_container<Type>::value && predicate::is_not_reflectable<Type>::value) {
-            binary_serialize(stream, data.size());
-
-            for(const auto& element : data) {
-                if constexpr (predicate::is_not_associative<Type>::value) {
-                    binary_serialize(stream, element);
-                } else {
-                    binary_serialize(stream, element.first);
-                    binary_serialize(stream, element.second);
-                }
+                return;
             }
 
-            return;
-        }
+            if constexpr (predicate::is_container<Type>::value && predicate::is_not_reflectable<Type>::value) {
+                binary_serialize(stream, data.size());
 
-        if constexpr (predicate::is_reflectable<Type>::value) {
-            FieldFriendlyScope::for_each_field<predicate::is_any>(data, [&](const char* fieldName, auto& field) {
-                binary_serialize(stream, field);
-            });
-
-            return;
-        }
-    }
-
-    template<class Type>
-    Type binary_deserialize(std::istream& stream) {
-        Type object;
-
-        if constexpr (predicate::is_not_container<Type>::value && predicate::is_not_reflectable<Type>::value) {
-            char* ptr = (char*) (void*) &object;
-            stream.read(ptr, sizeof(Type));
-        }
-
-        if constexpr (predicate::is_container<Type>::value) {
-            const auto size = binary_deserialize<size_t>(stream);
-
-            using valueType = typename Type::value_type;
-
-            for(int i = 0; i < size; ++i) {
-                if constexpr (predicate::is_not_associative<Type>::value) {
-                    object.push_back(binary_deserialize<valueType>(stream));
-                } else {
-                    const std::string key = binary_deserialize<std::string>(stream);
-                    object[key] = binary_deserialize<typename Type::mapped_type>(stream);
+                for(const auto& element : data) {
+                    if constexpr (predicate::is_not_associative<Type>::value) {
+                        binary_serialize(stream, element);
+                    } else {
+                        binary_serialize(stream, element.first);
+                        binary_serialize(stream, element.second);
+                    }
                 }
+
+                return;
+            }
+
+            if constexpr (predicate::is_reflectable<Type>::value) {
+                FieldFriendlyScope::for_each_field<predicate::is_any>(data, [&](const char* fieldName, auto& field) {
+                    binary_serialize(stream, field);
+                });
+
+                return;
             }
         }
 
-        if constexpr (predicate::is_reflectable<Type>::value) {
-            FieldFriendlyScope::for_each_field<predicate::is_any>(object, [&](const char* fieldName, auto& field) {
-                using fieldType = typename std::remove_const_t<std::remove_reference_t<decltype(field)>>;
+        template<class Type>
+        static Type binary_deserialize(std::istream& stream) {
+            Type object;
 
-                field = binary_deserialize<fieldType>(stream);
-            });
+            if constexpr (predicate::is_not_container<Type>::value && predicate::is_not_reflectable<Type>::value) {
+                char* ptr = (char*) (void*) &object;
+                stream.read(ptr, sizeof(Type));
+            }
+
+            if constexpr (predicate::is_container<Type>::value) {
+                const auto size = binary_deserialize<size_t>(stream);
+
+                using valueType = typename Type::value_type;
+
+                for(int i = 0; i < size; ++i) {
+                    if constexpr (predicate::is_not_associative<Type>::value) {
+                        object.push_back(binary_deserialize<valueType>(stream));
+                    } else {
+                        const std::string key = binary_deserialize<std::string>(stream);
+                        object[key] = binary_deserialize<typename Type::mapped_type>(stream);
+                    }
+                }
+            }
+
+            if constexpr (predicate::is_reflectable<Type>::value) {
+                FieldFriendlyScope::for_each_field<predicate::is_any>(object, [&](const char* fieldName, auto& field) {
+                    using fieldType = typename std::remove_const_t<std::remove_reference_t<decltype(field)>>;
+
+                    field = binary_deserialize<fieldType>(stream);
+                });
+            }
+
+            return object;
         }
-
-        return object;
-    }
+    };
 }
 
 #endif

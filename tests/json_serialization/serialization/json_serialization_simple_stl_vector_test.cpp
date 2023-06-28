@@ -27,7 +27,7 @@ int main() {
 		MyStruct_1 testStruct;
 		testStruct.vectorField = { 15, 75, 98, 14, 9 };
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data.size() == 1);
 	}
@@ -36,7 +36,7 @@ int main() {
 		MyStruct_1 testStruct;
 		testStruct.vectorField = { 15, 75, 98, 14, 9 };
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data["vectorField"].size() == 5);
 	}
@@ -45,7 +45,7 @@ int main() {
 		MyStruct_1 testStruct;
 		testStruct.vectorField = { 15, 75, 98, 14, 9 };
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data["vectorField"][0] == 15);
 		ensure(data["vectorField"][1] == 75);
@@ -60,7 +60,7 @@ int main() {
 		testStruct.vectorField.push_back(MyStruct_1({ 78, 1, 8, 26, 47 }));
 		testStruct.vectorField.push_back(MyStruct_1({ 1, 2, 3, 4, 5 }));
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data.size() == 1);
 	}
@@ -71,7 +71,7 @@ int main() {
 		testStruct.vectorField.push_back(MyStruct_1({ 78, 1, 8, 26, 47 }));
 		testStruct.vectorField.push_back(MyStruct_1({ 1, 2, 3, 4, 5 }));
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data["vectorField"].size() == 3);
 	}
@@ -85,7 +85,7 @@ int main() {
 		testStruct.vectorField.push_back(MyStruct_1({ 1, 2, 3, 4, 5 }));
 		testStruct.vectorField.push_back(MyStruct_1({ 0 }));
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data["vectorField"][0].size() == 1);
 		ensure(data["vectorField"][0]["vectorField"].size() == 5);

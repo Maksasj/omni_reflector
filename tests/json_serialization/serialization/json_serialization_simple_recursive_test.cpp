@@ -49,7 +49,7 @@ int main() {
 	TEST_CASE {
 		MyStruct_0_0 testStruct;
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data.size() == 1); // {{}}
 	}
@@ -57,7 +57,7 @@ int main() {
 	TEST_CASE {
 		MyStruct_1 testStruct;
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data.size() == 3);
 	}
@@ -65,7 +65,7 @@ int main() {
 	TEST_CASE {
 		MyStruct_2 testStruct;
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data.size() == 3);
 	}
@@ -73,7 +73,7 @@ int main() {
 	TEST_CASE {
 		MyStruct_3 testStruct;
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data.size() == 3); /* Size returns only top level object size*/
 	}
@@ -83,7 +83,7 @@ int main() {
 		testStruct.doubleField = 15.0;
 		testStruct.floatField = 7.0f;
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data["doubleField"] == 15.0);
 		ensure(data["floatField"] == 7.0f);
@@ -95,7 +95,7 @@ int main() {
 		testStruct.firstStructField.floatField = 7.0f;
 		testStruct.secondStructField.floatField = 77.0f;
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data["intField"] == 89.0);
 		ensure(data["firstStructField"]["floatField"] == 7.0f);
@@ -109,7 +109,7 @@ int main() {
 		testStruct.firstStructField.secondStructField.floatField = 77.0f;
 		testStruct.secondStructField.floatField = 78.0f;
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data["firstStructField"]["intField"] == 89.0);
 		ensure(data["firstStructField"]["firstStructField"]["floatField"] == 7.0f);

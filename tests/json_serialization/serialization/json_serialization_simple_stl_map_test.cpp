@@ -29,7 +29,7 @@ int main() {
 		testStruct.mapField["secondKey"] = 78;
 		testStruct.mapField["thirdKey"] =  3;
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data.size() == 1);
 	}
@@ -40,7 +40,7 @@ int main() {
 		testStruct.mapField["secondKey"] = 78;
 		testStruct.mapField["thirdKey"] =  3;
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data["mapField"].size() == 3);
 	}
@@ -51,7 +51,7 @@ int main() {
 		testStruct.mapField["secondKey"] = 78;
 		testStruct.mapField["thirdKey"] =  3;
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data["mapField"]["firstKey"] == 15);
 		ensure(data["mapField"]["secondKey"] == 78);
@@ -64,7 +64,7 @@ int main() {
 		testStruct.mapField["secondKey"] = MyStruct_1({ {"aaa", 10}, {"bbb", 11}, { "ccc", 12 } });
 		testStruct.mapField["thirdKey"] = MyStruct_1({ {"yyy", 1}, {"xxx", 2}, { "ppp", 3 } });
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data.size() == 1);
 	}
@@ -75,7 +75,7 @@ int main() {
 		testStruct.mapField["secondKey"] = MyStruct_1({ {"aaa", 10}, {"bbb", 11}, { "ccc", 12 } });
 		testStruct.mapField["thirdKey"] = MyStruct_1({ {"yyy", 1}, {"xxx", 2}, { "ppp", 3 } });
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data["mapField"].size() == 3);
 	}
@@ -86,7 +86,7 @@ int main() {
 		testStruct.mapField["secondKey"] = MyStruct_1({ {"aaa", 10}, {"bbb", 11}, { "ccc", 12 } });
 		testStruct.mapField["thirdKey"] = MyStruct_1({ {"yyy", 1}, {"xxx", 2}, { "ppp", 3 } });
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data["mapField"]["firstKey"]["mapField"].size() == 3);
 		ensure(data["mapField"]["secondKey"]["mapField"].size() == 3);
@@ -99,7 +99,7 @@ int main() {
 		testStruct.mapField["secondKey"] = MyStruct_1({ {"aaa", 10}, {"bbb", 11}, { "ccc", 12 } });
 		testStruct.mapField["thirdKey"] = MyStruct_1({ {"yyy", 1}, {"xxx", 2}, { "ppp", 3 } });
 
-		auto data = json_serialize(testStruct);
+		auto data = JsonSerializer::json_serialize(testStruct);
 
 		ensure(data["mapField"]["firstKey"]["mapField"]["firstKey"] == 15);
 		ensure(data["mapField"]["firstKey"]["mapField"]["secondKey"] == 78);
