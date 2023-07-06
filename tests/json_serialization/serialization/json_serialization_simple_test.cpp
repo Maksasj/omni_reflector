@@ -37,7 +37,7 @@ int main() {
 	}
 
 	TEST_CASE {
-		MyStruct_1 testStruct;
+		MyStruct_1 testStruct = MyStruct_1{};
 
 		auto data = JsonSerializer::json_serialize(testStruct);
 
@@ -45,7 +45,7 @@ int main() {
 	}
 
 	TEST_CASE {
-		MyStruct_2 testStruct;
+		MyStruct_2 testStruct = MyStruct_2{};
 
 		auto data = JsonSerializer::json_serialize(testStruct);
 
@@ -53,10 +53,7 @@ int main() {
 	}
 
 	TEST_CASE {
-		MyStruct_1 testStruct;
-		testStruct.doubleField = 15.0;
-		testStruct.floatField = 7.0f;
-		testStruct.intField = 89;
+		MyStruct_1 testStruct = MyStruct_1{15.0, 7.0f, 89};
 
 		auto data = JsonSerializer::json_serialize(testStruct);
 
@@ -66,11 +63,7 @@ int main() {
 	}
 
 	TEST_CASE {
-		MyStruct_2 testStruct;
-		testStruct.doubleField = 15.0;
-		testStruct.floatField = 7.0f;
-		testStruct.intField = 89;
-		testStruct.charField = 127;
+		MyStruct_2 testStruct = MyStruct_2{15.0, 7.0f, 89, 127};
 
 		auto data = JsonSerializer::json_serialize(testStruct);
 
